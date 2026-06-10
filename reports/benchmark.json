@@ -1,0 +1,32 @@
+[
+  {
+    "backend": "pytorch",
+    "p50_ms": 0.112,
+    "p95_ms": 0.16,
+    "p99_ms": 0.292,
+    "throughput_rps": 8920.6,
+    "size_kb": 18.2,
+    "cost_per_1k_usd": 2e-06,
+    "accuracy": 0.845
+  },
+  {
+    "backend": "onnx",
+    "p50_ms": 0.043,
+    "p95_ms": 0.064,
+    "p99_ms": 0.082,
+    "throughput_rps": 23014.9,
+    "size_kb": 15.6,
+    "cost_per_1k_usd": 1e-06,
+    "accuracy": 0.845
+  },
+  {
+    "backend": "onnx-int8",
+    "p50_ms": 0.043,
+    "p95_ms": 0.058,
+    "p99_ms": 0.077,
+    "throughput_rps": 23041.5,
+    "size_kb": 9.1,
+    "cost_per_1k_usd": 1e-06,
+    "accuracy": 0.8455
+  }
+]
