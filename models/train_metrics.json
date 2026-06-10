@@ -1,0 +1,5 @@
+{
+  "accuracy": 0.845,
+  "roc_auc": 0.9312,
+  "epochs": 40
+}
