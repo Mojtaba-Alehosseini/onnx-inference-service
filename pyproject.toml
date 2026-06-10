@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onnx-inference-service"
+version = "1.0.0"
+description = "ONNX inference service with benchmark: PyTorch vs ONNX FP32 vs INT8"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "torch==2.5.1",
+    "onnx==1.17.0",
+    "onnxruntime==1.21.0",
+    "fastapi==0.115.12",
+    "uvicorn[standard]==0.34.3",
+    "httpx==0.28.1",
+    "pydantic==2.11.4",
+    "numpy>=1.24,<3",
+    "pandas>=2.0,<3",
+    "scikit-learn>=1.4,<2",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+    "httpx>=0.28",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "api*"]
+
+[tool.ruff]
+line-length = 100
+[tool.ruff.lint]
+select = ["E", "W", "F", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
