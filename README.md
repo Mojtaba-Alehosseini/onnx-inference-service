@@ -115,7 +115,7 @@ onnx-inference-service/
 │   ├── benchmark.json   # raw numbers (all README claims traced here)
 │   └── benchmark.md     # human-readable report with recommendation
 ├── Dockerfile
-└── tests/               # 24 hermetic tests
+└── tests/               # 31 hermetic tests
 ```
 
 ## Limitations
@@ -132,3 +132,7 @@ onnx-inference-service/
 - [ONNX Runtime](https://onnxruntime.ai) — MIT
 - [ONNX](https://onnx.ai) — Apache-2.0
 - [FastAPI](https://fastapi.tiangolo.com) — MIT
+
+---
+
+*Built by [Mojtaba Alehosseini](https://github.com/Mojtaba-Alehosseini) — data scientist.*
