@@ -1,8 +1,8 @@
 # ONNX Inference Service
 
 Export a PyTorch model to ONNX, apply INT8 quantisation, serve it behind a FastAPI endpoint,
-and benchmark latency (p50/p95/p99), throughput, model size, and cost-per-1 000 inferences
-across three backends. Numbers from `reports/benchmark.json` (committed).
+then benchmark latency (p50/p95/p99), throughput, model size, and cost per 1,000 inferences
+across three backends. Every number below comes from the committed `reports/benchmark.json`.
 
 ## Benchmark (reproduce: `python -m src.serve.benchmark`)
 
@@ -16,9 +16,10 @@ across three backends. Numbers from `reports/benchmark.json` (committed).
 
 Key findings:
 
-- **ONNX FP32 is 2.6x faster than PyTorch** at p50 (0.043 ms vs 0.112 ms); same accuracy.
-- **INT8 is 1.71x smaller** than FP32 (9.1 KB vs 15.6 KB) with negligible accuracy delta (+0.0005).
-- Cost halves from PyTorch to ONNX at the same hardware tier.
+- ONNX FP32 runs **2.6x faster than PyTorch** at p50 (0.043 ms vs 0.112 ms), at identical accuracy.
+- INT8 is **1.71x smaller** than FP32 (9.1 KB vs 15.6 KB), and the accuracy delta is +0.0005,
+  which is noise at this scale.
+- Cost halves going from PyTorch to ONNX on the same hardware tier.
 
 ### SLA recommendation
 
@@ -30,19 +31,20 @@ Key findings:
 
 ## Model
 
-Two-layer MLP (19 → 64 → 32 → 1) trained on a deterministic synthetic binary-classification
-dataset (10 000 rows, 19 features, churn-like boundary). Seed 42, reproducible.
-Training metrics (from `models/train_metrics.json`): accuracy=0.845, ROC-AUC=0.931.
+A two-layer MLP (19 → 64 → 32 → 1) trained on a deterministic synthetic binary-classification
+dataset: 10,000 rows, 19 features, churn-like decision boundary, seed 42. Training metrics from
+`models/train_metrics.json` are accuracy=0.845 and ROC-AUC=0.931.
 
-The point is **not** the model — it is the serving pipeline and the benchmark discipline.
-The same export → quantise → serve → benchmark pattern applies to any PyTorch model.
+The model itself is beside the point. What this repo is about is the serving pipeline and the
+benchmark discipline around it. The same export, quantise, serve, benchmark pattern applies to
+any PyTorch model you'd swap in.
 
 ## Problem
 
-Most ML demos stop at "it returns a prediction." Real serving decisions require numbers:
-*How much faster is ONNX Runtime? What does quantisation cost in accuracy? Which backend
-meets a given SLA, and at what dollar cost?* This project answers those questions with
-measured data — the same "dollars-per-watt" mindset I applied to a 100+ GPU HPC fleet.
+Most ML demos stop at "it returns a prediction." Actual serving decisions need numbers. How
+much faster is ONNX Runtime, really? What does quantisation cost you in accuracy? Which backend
+meets a given SLA, and what does it cost per thousand calls? This repo answers those with
+measured data, applying the same dollars-per-watt thinking I used on a 100+ GPU HPC fleet.
 
 ## Approach
 
@@ -120,11 +122,12 @@ onnx-inference-service/
 
 ## Limitations
 
-- Synthetic dataset; results will differ on real tabular data (more features, sparser signal).
-- Dynamic INT8 quantises weights only; activations remain FP32. Static quantisation would
-  yield larger size reductions but requires a calibration dataset.
-- Benchmark is single-threaded batch=1; concurrent load (Locust / async) would show
-  different throughput characteristics.
+- The dataset is synthetic, so results will differ on real tabular data with more features and
+  sparser signal.
+- Dynamic INT8 quantises weights only and leaves activations in FP32. Static quantisation would
+  shrink the model further, but it needs a calibration dataset.
+- The benchmark is single-threaded at batch=1. Putting it under concurrent load with Locust or
+  an async client would show quite different throughput.
 
 ## Attributions
 
@@ -135,4 +138,4 @@ onnx-inference-service/
 
 ---
 
-*Built by [Mojtaba Alehosseini](https://github.com/Mojtaba-Alehosseini) — data scientist.*
+Built by [Mojtaba Alehosseini](https://github.com/Mojtaba-Alehosseini), data scientist.
