@@ -71,7 +71,7 @@ Benchmark harness: p50/p95/p99 latency, throughput, size, $/1k --> reports/bench
 pip install torch==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt && pip install -e .
 
-# Model artefacts are already committed — skip training if cloning fresh
+# Model artefacts are already committed: skip training if cloning fresh
 python -m src.serve.train          # optional: retrain from scratch
 python -m src.serve.export_onnx    # optional: re-export
 python -m src.serve.quantize       # optional: re-quantise
@@ -131,10 +131,10 @@ onnx-inference-service/
 
 ## Attributions
 
-- [PyTorch](https://pytorch.org) — BSD-style
-- [ONNX Runtime](https://onnxruntime.ai) — MIT
-- [ONNX](https://onnx.ai) — Apache-2.0
-- [FastAPI](https://fastapi.tiangolo.com) — MIT
+- [PyTorch](https://pytorch.org): BSD-style
+- [ONNX Runtime](https://onnxruntime.ai): MIT
+- [ONNX](https://onnx.ai): Apache-2.0
+- [FastAPI](https://fastapi.tiangolo.com): MIT
 
 ---
 
